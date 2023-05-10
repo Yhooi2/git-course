@@ -1,4 +1,4 @@
 # Git  and GitHub course
 Прочитай меня!
 
-Crash course for Git
+Crash course for Git двалопдвлт итыбьу
