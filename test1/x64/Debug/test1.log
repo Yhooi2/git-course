@@ -1,2 +1,5 @@
 ﻿  test1.cpp
+C:\Users\Art\source\repos\git-course\test1\test1.cpp(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\Art\source\repos\git-course\test1\test1.cpp(8,16): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\Art\source\repos\git-course\test1\test1.cpp(11,10): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   test1.vcxproj -> C:\Users\Art\source\repos\git-course\test1\x64\Debug\test1.exe
