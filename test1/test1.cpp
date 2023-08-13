@@ -4,6 +4,6 @@
 using namespace std;
 
 int main() {
-	short int x;
-	cout << sizeof(x);
+	char x = 'x';
+	cout << x << ' ' << int(x);
 }
