@@ -4,9 +4,10 @@
 using namespace std;
 
 int main() {
-	string name = "!!!!Alex!!!!";
-	char c = name[5];
-	cout << name[4] << c << endl << name.size() <<endl;
-	cout << name.substr(4, 4)<<endl;
-	cout << name.insert(4, "art");
+	string name = "135";
+	int x = 345;
+	int y = stoi(name);
+	int z = x + y;
+	name = to_string(x) + "00";
+	cout << y+1 << endl << name << endl << z;
 }
