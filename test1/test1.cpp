@@ -7,10 +7,13 @@ struct Animals {
 	string type = "";
 	string name = "";
 };
+struct Position {
+	double x = 0, y = 0;
+};
 
 int main() {
-	Animals cat;
-	cat.type = "britanec";
-	cat.name = "Barsic";
-	cout << cat.name	
+	Animals cat = { 4,"britanec", "Barsic" };
+	Position Moscow = { 100.5, 100.2 }, London = { 150.1, 300.6 };
+	cout << cat.legs << ' ' << cat.type << ' ' << cat.name << endl;
+	cout << Moscow.y << ' ' << London.y << endl << sizeof(Moscow);
 }
