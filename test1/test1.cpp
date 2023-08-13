@@ -11,6 +11,6 @@ int main() {
 	f2 = int(y);
 	cout << float(x) << endl << f2  << endl;
 	cout << fixed;
-	cout << setprecision(8) << f;
+	cout << setprecision(7) << f;
 	
 }
