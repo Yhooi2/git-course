@@ -1,4 +1,0 @@
-﻿  test1.cpp
-C:\Users\Art\source\repos\git-course\test1\test1.cpp(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  LINK : C:\Users\Art\source\repos\git-course\test1\x64\Debug\test1.exe not found or not built by the last incremental link; performing full link
-  test1.vcxproj -> C:\Users\Art\source\repos\git-course\test1\x64\Debug\test1.exe
