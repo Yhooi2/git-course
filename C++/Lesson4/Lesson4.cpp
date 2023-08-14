@@ -2,17 +2,27 @@
 
 using namespace std;
 
-int main()
-{
+int main() {
 	int x, y;
-	cin >> x >> y;
-//	if (x < y) {
-//		cout << "(x < y)";
-//	}
+	char oper;
+	cin >> x >> oper >> y;
 
-//	else {
-//		cout << "(x >= y)";
-//	}
-	cout << ((x < y) ? "x < y" : "x >= y");
-	// -- Ternary operator
+	cout << "Operation result: ";
+	if (oper == '+') {
+		cout << x + y;
+	}
+	else if (oper == '-') {
+		cout << x - y;
+	}
+	else if (oper == '*') {
+		cout << x * y;
+	}
+	else if (oper == '/') {
+		cout << x / y;
+	}
+	else if (oper == '%') {
+		cout << x % y;
+	}
+	else
+		cout << "ERROR";
 }
