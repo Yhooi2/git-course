@@ -4,3 +4,5 @@ errors.txt
 .vs/
 /logs
 /Debug
+/x64
+x64
