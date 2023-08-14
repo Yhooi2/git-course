@@ -1,11 +1,15 @@
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
 int main()
 {
-	int x, y;
+	float x, y;
 	cin >> x >> y;
-	cout << (max(x, y) % min(x, y) == 0);
-	//cout << (( x % y == 0) || (y % x ==0));
+	cout << sqrt(x) << endl;
+	//  корень из x
+	cout << pow(x, y);
+	// x ^ y
+
 }
