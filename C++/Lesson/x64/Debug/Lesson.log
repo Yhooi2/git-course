@@ -1,3 +1,2 @@
 ﻿  Lesson.cpp
-C:\Users\Art\source\repos\git-course\C++\Lesson\Lesson.cpp(17,34): warning C4553: '==': result of expression not used; did you intend '='?
   Lesson.vcxproj -> C:\Users\Art\source\repos\git-course\C++\Lesson\x64\Debug\Lesson.exe
