@@ -4,12 +4,8 @@ using namespace std;
 
 int main()
 {
-	string name;
-	cin >> name;
-	// balex
-	name[0] = char((int)name[0] - 'a' + 'A');
-	//b - a = 1 + A = B
-	cout << name;
-	name[0] = char((int)name[0] - 'A' + 'a');
-	cout << endl << name;
+	int x, y;
+	cin >> x >> y;
+	cout << (max(x, y) % min(x, y) == 0);
+	//cout << (( x % y == 0) || (y % x ==0));
 }
