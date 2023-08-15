@@ -6,7 +6,7 @@ int main()
 {
 	int end;
 	cin >> end;
-	//for (int i = end -1 ; i > 0; --i)
+	//for (int i = end -1 ; i > 0; --i) 
 	while (end-- > 0)
 		cout << end << ' ';
 }
