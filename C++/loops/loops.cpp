@@ -4,9 +4,9 @@ using namespace std;
 
 int main()
 {
-	int end;
-	cin >> end;
-	//for (int i = end -1 ; i > 0; --i) 
-	while (end-- > 0)
-		cout << end << ' ';
+	int coint = 1;
+	cin >> coint;
+	while (coint % 10 == 0 && coint != 0)
+		coint /= 10;
+	cout << coint;
 }
