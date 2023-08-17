@@ -6,7 +6,8 @@ int main()
 {
 	long long number;
 	cin >> number;
-	for (int i = 2; i <= number; i++)
+	// (sqrt(number)+1) * (sqrt(number)+1) > number
+	for (int i = 2; i <= sqrt(number); i++)
 	{
 		if (number % i == 0)
 		{
@@ -14,4 +15,5 @@ int main()
 			return 0;
 		}
 	}
+	cout << number;
 }
