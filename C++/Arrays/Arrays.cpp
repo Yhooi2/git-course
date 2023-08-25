@@ -4,8 +4,7 @@
 using namespace std;
 
 int arr[50];
-int n;
-
+int n; 
 int main() {
 	cin >> n;
 	for (int i = 0; i < n; i++)
