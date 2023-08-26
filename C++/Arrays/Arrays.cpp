@@ -1,27 +1,37 @@
 #include <iostream>
 
+const int MAX = 100;
+
 using namespace std;
 
-int arr[100][100];//int arr[2][2][2]; {{{ , } { , }}{{ , }{ , }}}
 
 int main() {
-	int size;
-	cin >> size;
 
+	int matrix[MAX][MAX];//int arr[2][2][2]; {{{ , } { , }}{{ , }{ , }}}
+	int size;
+
+	cin >> size; // Enter matrix size
+
+	// read matrix
 	for (int i = 0; i < size; i++)
 		for (int j = 0; j < size; j++)
-			cin >> arr[i][j];
+			cin >> matrix[i][j];
 
-	int sum_above = 0, sum_below = 0, sum_diag = 0;
+// Calculate sums
+	int sumAbove = 0, 
+		sumBelow = 0, 
+		sumDiagonal = 0;
 
 	for (int i = 0; i < size; i++) 
 		for (int j = 0; j < size; j++) {
 			if (i < j)
-				sum_below += arr[i][j];
+				sumBelow += matrix[i][j];
 			else if (i > j)
-				sum_above += arr[i][j];
+				sumAbove += matrix[i][j];
 			else
-				sum_diag += arr[i][i];
+				sumDiagonal += matrix[i][i];
 		}
-	cout << sum_above << " " << sum_below << " " << sum_diag;
+
+// Print sums
+	cout << sumAbove << " " << sumBelow << " " << sumDiagonal;
 }
