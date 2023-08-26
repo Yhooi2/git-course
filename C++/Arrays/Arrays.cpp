@@ -12,26 +12,35 @@ int main() {
 
 	cin >> size; // Enter matrix size
 
-	// read matrix
-	for (int i = 0; i < size; i++)
-		for (int j = 0; j < size; j++)
+	// input matrix elements
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
 			cin >> matrix[i][j];
+		}
+	}
 
-// Calculate sums
-	int sumAbove = 0, 
-		sumBelow = 0, 
+	// Calculate sums and zeroing
+	int sumEven = 0, 
 		sumDiagonal = 0;
 
-	for (int i = 0; i < size; i++) 
+	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
-			if (i < j)
-				sumBelow += matrix[i][j];
-			else if (i > j)
-				sumAbove += matrix[i][j];
-			else
-				sumDiagonal += matrix[i][i];
+			if (i % 2 == 0 && j % 2 == 0) {
+				sumEven += matrix[i][j];
+				matrix[i][j] = 0;
+			}
 		}
+		sumDiagonal += matrix[i][i];
+		matrix[i][i] = 0;
+	}
 
-// Print sums
-	cout << sumAbove << " " << sumBelow << " " << sumDiagonal;
+// Print updated matrix and sum
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			cout << matrix[i][j] << ' ';
+		}
+		cout << endl;
+	}
+
+	cout << sumEven + sumDiagonal;
 }
