@@ -2,43 +2,26 @@
 
 using namespace std;
 
-struct Numbers
-{
-	int number;
-	string name;
-};
+int arr[100][100];//int arr[2][2][2]; {{{ , } { , }}{{ , }{ , }}}
 
-Numbers catalog[100];
-int main()
-{
-	// input directory
+int main() {
 	int size;
-	cout << "Enter size of catalog: ";
 	cin >> size;
 
-	for (int i = 0; i < size; i++) {
-		cout << "\nEnter phone number " << i+1 << ": ";
-		cin >> catalog[i].number;
-		cout << "\nEnter name " << i+1 << ": ";
-		cin >> catalog[i].name;
-	}
+	for (int i = 0; i < size; i++)
+		for (int j = 0; j < size; j++)
+			cin >> arr[i][j];
 
-	// Search the cataloge for a name by phone number
-	int look;
+	int sum_above = 0, sum_below = 0, sum_diag = 0;
 
-	do {
-		cout << "\nEnter number to look for (0 to exit): ";
-		cin >> look;
-		bool found = false;
-
-		for (int i = 0; i < size; i++) {
-			if (look == catalog[i].number) {
-				cout << catalog[i].name;
-				found = true;
-			}
+	for (int i = 0; i < size; i++) 
+		for (int j = 0; j < size; j++) {
+			if (i < j)
+				sum_below += arr[i][j];
+			else if (i > j)
+				sum_above += arr[i][j];
+			else
+				sum_diag += arr[i][i];
 		}
-		if (!found)
-			cout << "Number not name";
-	} while (look != 0);
-	return 0;
+	cout << sum_above << " " << sum_below << " " << sum_diag;
 }
