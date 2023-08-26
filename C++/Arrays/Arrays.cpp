@@ -20,8 +20,7 @@ int main() {
 	}
 
 	// Calculate sums and zeroing
-	int sumEven = 0, 
-		sumDiagonal = 0;
+	int sumEven = 0;
 
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
@@ -30,8 +29,6 @@ int main() {
 				matrix[i][j] = 0;
 			}
 		}
-		sumDiagonal += matrix[i][i];
-		matrix[i][i] = 0;
 	}
 
 // Print updated matrix and sum
@@ -42,5 +39,5 @@ int main() {
 		cout << endl;
 	}
 
-	cout << sumEven + sumDiagonal;
+	cout << sumEven;
 }
