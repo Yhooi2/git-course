@@ -8,36 +8,23 @@ using namespace std;
 int main() {
 
 	int matrix[MAX][MAX];//int arr[2][2][2]; {{{ , } { , }}{{ , }{ , }}}
-	int size;
+	int sizeColumns, sizeRows;
 
-	cin >> size; // Enter matrix size
+	cin >> sizeColumns // Enter matrix size columns
+		>> sizeRows; // Enter matrix size rows
 
 	// input matrix elements
-	for (int i = 0; i < size; i++) {
-		for (int j = 0; j < size; j++) {
+	for (int i = 0; i < sizeColumns; i++) {
+		for (int j = 0; j < sizeRows; j++) {
 			cin >> matrix[i][j];
 		}
 	}
 
-	// Calculate sums and zeroing
-	int sumEven = 0;
-
-	for (int i = 0; i < size; i++) {
-		for (int j = 0; j < size; j++) {
-			if (i % 2 == 0 && j % 2 == 0) {
-				sumEven += matrix[i][j];
-				matrix[i][j] = 0;
-			}
-		}
-	}
-
-// Print updated matrix and sum
-	for (int i = 0; i < size; i++) {
-		for (int j = 0; j < size; j++) {
-			cout << matrix[i][j] << ' ';
+// Print matrix trunspose
+	for (int i = 0; i < sizeRows; i++) {
+		for (int j = 0; j < sizeColumns; j++) {
+			cout << matrix[j][i] << ' ';
 		}
 		cout << endl;
 	}
-
-	cout << sumEven;
 }
