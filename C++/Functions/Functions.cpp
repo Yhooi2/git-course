@@ -1,25 +1,32 @@
 #include<iostream>
 
 using namespace std;
+#define ll long long
 
-unsigned long long int factorial(int n) {
-	if (n == 0) return 1;
-	return n * factorial(n - 1);
+//// Check if number is prime
+bool inPrime(int n) {	
+	for (int i = 2; i * i <= n; i++) {
+		if (n % i == 0)
+			return false;
+	}
+	return true;
 }
 
-unsigned long long int C(int n, int k) {
-		return factorial(n) / (factorial(k) * factorial(n - k));
+// Find a first pair of prime numbers
+pair<int, int> solve(int n) {
+	for (int i = 2; i < n; i++) {
+		if (inPrime(i) && inPrime(n - i))
+			//cout << i << ' ' << n - i << endl;
+		return pair<int, int>(i, n - i);
+	}
+	return pair<int, int>(-1, -1);
 }
 
 int main() {
+	int n;
+	cin >> n;
 
-// C = n! / (k! * (n - k)!)
-	int n, k;
-
-	do {
-		cin >> n >> k;
-	} 
-	while (n < k);
-
-	cout << C(n, k);
+	// Output result
+	auto ans = solve(n);
+	cout << ans.first << ' ' << ans.second;
 }
