@@ -1,32 +1,78 @@
 #include<iostream>
 
-using namespace std;
-#define ll long long
+const int SIZE = 100;
 
-//// Check if number is prime
-bool inPrime(int n) {	
-	for (int i = 2; i * i <= n; i++) {
-		if (n % i == 0)
-			return false;
-	}
-	return true;
+using namespace std;
+
+//Input Array
+void enterArray(int arr[SIZE], const int& n) {
+
+	if (n < 0) return;
+	cin >> arr[n];
+	enterArray(arr, n - 1);
+
 }
 
-// Find a first pair of prime numbers
-pair<int, int> solve(int n) {
-	for (int i = 2; i < n; i++) {
-		if (inPrime(i) && inPrime(n - i))
-			//cout << i << ' ' << n - i << endl;
-		return pair<int, int>(i, n - i);
+// Print Arroy
+void printArray(int(arr)[SIZE], const int& n) {
+
+	if (n < 0) {
+		cout << endl;
+		return;
 	}
-	return pair<int, int>(-1, -1);
+	cout << arr[n] << ' ';
+	printArray(arr, n - 1);
+}
+
+// buble sort
+void sortArray(int arr[SIZE],const int& n) {
+	
+	bool flage = true;
+	do {
+		flage = false;
+		for (int i = 0; i < n; i++) {
+			if (arr[i] < arr[i + 1]) {
+				swap(arr[i], arr[i + 1]);
+				flage = true;
+			}
+		}
+	} while (flage); 
+}
+
+// conter unique nombers and 
+int unique(int arr[SIZE], const int& n) {
+	int counter = 0;
+
+	for (int i = 0; i < n; i++) {
+		if (arr[i] != arr[i + 1]) {
+			counter++;
+			arr[counter] = arr[i + 1];
+		}
+	}
+	return counter;
+}
+
+// revers Array
+void reversArray(int arr[SIZE], const int& n) {
+	
+	for (int i = 0; i < n / 2; i++) {
+		swap(arr[i], arr[n - i]);
+	}
+	return;
 }
 
 int main() {
-	int n;
-	cin >> n;
 
-	// Output result
-	auto ans = solve(n);
-	cout << ans.first << ' ' << ans.second;
+	int arr[SIZE];
+	int countity;
+	cin >> countity;
+	countity--; // becouse index array start with 0
+
+	enterArray(arr, countity);
+	sortArray(arr, countity);
+	printArray(arr, countity);
+
+	int newSize = unique(arr, countity);
+	reversArray(arr, newSize);
+	printArray(arr, newSize);
 }
