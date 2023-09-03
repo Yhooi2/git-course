@@ -4,21 +4,22 @@
 #include <cstdlib> //rand(), srand()
 #include <ctime> // time()
 
-const int WIDTH = 9, HEIGHT = 9, MINES = 10,
+const int WIDTH = 4, HEIGHT = 4, MINES = 1,
 		  SIZE = 100;
 
 int field[SIZE][SIZE];
 int fieldFerst[SIZE][SIZE];
-
+int counter; // counter steeps
 using namespace std;
 
 
 // Print game field
-void printField(int fieldFerst[SIZE][SIZE]) {
+void printField() {
 	system("cls");
 
 	// Print header with coordinates
-	cout << "  ";
+	cout << "STEEP: " << counter << endl
+		 << "  ";
 
 	for (int i = 0; i < WIDTH; i++) {
 		cout << ' ' << i + 1;
@@ -35,7 +36,7 @@ void printField(int fieldFerst[SIZE][SIZE]) {
 		// Print cell volue or placeholder
 		for (int j = 0; j < WIDTH; j++) {
 			if (fieldFerst[i][j] == -1)
-				cout << "X ";
+				cout << "X  ";
 			else if (fieldFerst[i][j] == -2)
 				cout << "_  ";
 			else if (fieldFerst[i][j] == -3)
@@ -49,107 +50,157 @@ void printField(int fieldFerst[SIZE][SIZE]) {
 }
 
 // Deep First Serch(DFS)
-void checkMove(int fieldFerst[SIZE][SIZE], int i, int j) {
+void checkMove(const int& i, const int& j) {
 
 	// Check surrounding cells
 	for (int a = i - 1; a < i + 2; a++) {
 		for (int b = j - 1; b < j + 2; b++) {
 
 			// Open empty adjacent cells
-			if (a >= 0 && a <= 0 &&
-				b >= 0 && b <= 0 &&
+			if (a >= 0 && a < WIDTH &&
+				b >= 0 && b < HEIGHT &&
 				field[a][b] == 0 &&
 				fieldFerst[a][b] == -2) {
 
 				fieldFerst[a][b] = field[a][b];
-				checkMove(fieldFerst, a, b);
+				checkMove(a, b);
 			}
 		}
 	}
 }
 
-int main() {
+bool openCell(const int& x,const int& y) {
+	if (field[x][y] == -1)
+		return false;
+	if (field[x][y] > 0) {
+		fieldFerst[x][y] = field[x][y];
+			return true;
+	}
+	checkMove(x, y);
+	return true;
+}
 
-	// Initialize field
+bool checkWin() {
 	for (int i = 0; i < WIDTH; i++) {
 		for (int j = 0; j < HEIGHT; j++) {
-			fieldFerst[i][j] = -2;
+			if (fieldFerst[i][j] == -2 && field[i][j] != -1)
+				return false;
 		}
 	}
-	printField(fieldFerst);
-
-	srand(time(nullptr));// Generate random seed
-
-	// Set random cells as mines
-	for (int i = 0; i < MINES; i++) {
-		int x, y;
-		do {
-			x = rand() % WIDTH;
-			y = rand() % HEIGHT;
-		} while (field[x][y] == -1);
-
-		field[x][y] = -1;
-	}
-
-	// Calculate number of adjacent mines
+	return true;
+}
+bool printEnd(bool fl) {
 	for (int i = 0; i < WIDTH; i++) {
 		for (int j = 0; j < HEIGHT; j++) {
-			if (field[i][j] == 0) {
-				for (int a = i - 1; a < i + 2; a++) {
-					for (int b = j - 1; b < j + 2; b++) {
-						if (a >= 0 && a <= WIDTH &&
-							b >= 0 && b <= HEIGHT &&
-							field[a][b] == -1)
-							++field[i][j];
+			if (field[i][j] == -1)
+				fieldFerst[i][j] = field[i][j];
+		}
+	}
+	printField();
+	char end;
+		cout << "\nYOU " << (fl ? "WIN!" : "GAME OVER!") << endl << endl;
+		cout << "Enter anything to start new game, or q to exit: ";
+		cin >> end;
+		return (end == 'q');
+}
+
+int main() {
+
+	bool exit = true;
+	do {
+		counter = 0; // zeroing counter
+
+		// Initialize field
+		for (int i = 0; i < WIDTH; i++) {
+			for (int j = 0; j < HEIGHT; j++) {
+				fieldFerst[i][j] = -2;
+			}
+		}
+		printField();
+
+		srand(time(nullptr));// Generate random seed
+
+		// Set random cells as mines
+		for (int i = 0; i < MINES; i++) {
+			int x, y;
+			do {
+				x = rand() % WIDTH;
+				y = rand() % HEIGHT;
+			} while (field[x][y] == -1);
+
+			field[x][y] = -1;
+		}
+
+		// Calculate number of adjacent mines
+		for (int i = 0; i < WIDTH; i++) {
+			for (int j = 0; j < HEIGHT; j++) {
+				if (field[i][j] == 0) {
+					for (int a = i - 1; a < i + 2; a++) {
+						for (int b = j - 1; b < j + 2; b++) {
+							if (a >= 0 && a <= WIDTH &&
+								b >= 0 && b <= HEIGHT &&
+								field[a][b] == -1)
+								++field[i][j];
+						}
 					}
 				}
 			}
 		}
-	}
 
-	// Game Loop
-	do {
-
-		//code for player's move
-		char command;
-		int width, height;
-
+		bool newGame = true;
+		// Game Loop
 		do {
-			cout << endl << "Enter command (o - open, f - flage, q - exit): ";
-			cin >> command;
+			counter++;
+			//code for player's move
+			char command;
+			int width, height;
 
-			if (command == 'q')
-				return 0;
+			do {
+				cout << endl << "Enter command (o - open, f - flage, n - new, q - exit): ";
+				cin >> command;
 
-			cout << "Enter coordinates: ";
-			cin >> width >> height;
-		}
+				if (command == 'q') {
+					newGame = exit = false; 
+					return 0;
+				}
+					
+				if (command == 'n') {
+					newGame = false;
+					break;
+				}
+				cout << "Enter coordinates: ";
+				cin >> width >> height;
 
-		while (width > WIDTH || height > HEIGHT ||
-			width < 0 || height < 0);
+				--width; // Corect of coordinates
+				--height;
+			}	
+			while (width >= WIDTH || height >= HEIGHT ||
+				   width < 0 || height < 0);
 
-		--width;
-		--height;
-		if (command == 'f') {
-			if (fieldFerst[width][height] == -2)
-				fieldFerst[width][height] = -3;
-			else if (fieldFerst[width][height] == -3)
-				fieldFerst[width][height] = -2;
-		}
 
-		//Game over
-		else if (field[width][height] == -1) {
-			fieldFerst[width][height] = field[width][height];
-			printField(fieldFerst);
-			cout << "Game over";
-			return 0;
-		}
+			if (command == 'f') {
+				if (fieldFerst[width][height] == -2)
+					fieldFerst[width][height] = -3;
+				else if (fieldFerst[width][height] == -3)
+					fieldFerst[width][height] = -2;
+				--counter;
+			}
 
-		else if (field[width][height] == 0)
-			checkMove(fieldFerst, width, height);
-		else
-			fieldFerst[width][height] = field[width][height];
-		printField(fieldFerst);
-	} while (true);
-	return 0;
+			//Game over
+			else if (!openCell(width, height)) {
+				if (printEnd(openCell(width, height)))
+					exit = false;
+				newGame = false;
+			}
+
+			printField();
+			if (checkWin()) {
+				if (printEnd(checkWin()))
+					exit = false;
+				newGame = false;
+			}
+
+		} while (newGame);
+	} while (exit);
+return 0;
 }
