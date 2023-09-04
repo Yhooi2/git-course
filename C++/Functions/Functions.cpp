@@ -1,30 +1,15 @@
 #include <iostream>
-
-using namespace std;
-
-// function to binary
-string tobinary(const int& n) {
-	if (n == 0)
-		return "0";
-
-	string binaryString = "";	
-
-	if (n % 2 == 0)
-		binaryString = "0" + tobinary(n/2);
-
-	else 
-		binaryString = "1" + tobinary(n/2);
-
-	return s;
-}
+#include <string>
 
 int main() {
-	int num;
-	cin >> num;
+	int n = 22222;
+	std::string s,
+		s2 = std::to_string(n);
 
-	string binary = tobinary(num);
-
-	cout << binary<< endl;
-
-	return 0;
+	std::cin >> s;
+	s.erase(s.size() - 2);//, s.size());
+	s.insert(s.size(), "em");
+	std::cout << (s > s2) << std::endl;
+	std::cout << std::endl << s << ' ';
+	std::cout << s2.substr(0, 3) << ' ' << s2;//1, 2)
 }
