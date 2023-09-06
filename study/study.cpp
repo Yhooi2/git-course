@@ -1,55 +1,39 @@
 #include <iostream>
-enum class Exception1 {
-    devisionError,
-    logError,
-    sqrtError
+#define NDEBUG
+#include <cassert>
+
+
+const int SIZE = 100;
+
+
+
+struct Animal {
+	int legs = 4;
+	std::string name = "";
 };
-enum class Exception2 {
-    devisionError,
-    logError
-};
-int division(const int& x, const int& y) {
-    if (y != 0)
-        return x / y;
-    throw Exception1::devisionError;//std::runtime_error("Div 0"); // true/false, 12
+
+void checkAnimal(const Animal& pet) {
+
+	std::cout << pet.name << std::endl;
+	assert((pet.legs > 0 && pet.legs < 1000) && "Animals don't have less then 0 legs and morre  then 1000!");
+	assert((pet.name.size() > 0 && pet.name.size() < 100) && "Name is too long or empty");
+	assert((pet.name[0] >= 'A' && pet.name[0] <= 'Z') && "Names must begin with capitan letter");
 }
 
-int main()
-{
-    int x = 1, y = 1;
-    std::cin >> x >> y;
-    try {
-        std::cout << division(x, y);
-    }
-    catch (Exception1 error) {
-        if (error == Exception1::devisionError)
-            std::cout << "Devision 0"<< std::endl;
-        else if (error == Exception1::sqrtError)
-            std::cout << "Sqrt error" << std::endl;
-    }
+int main() {
 
-    catch (std::logic_error& error) {
-        std::cout << "Division 0 code logic error:" << std::endl << error.what() << std::endl;
-        std::cout << typeid(error).name() << std::endl;
+	Animal cat = { 4, "barsic" };
+	checkAnimal(cat);
+	int n;
+	static_assert(SIZE > 0, "SIZE for array mast be greater than null!");//break before start
+	static_assert(sizeof(int) == 4, "Check size int");
+	std::cin >> n;
+	assert(((void)"I can write here", n < 10 && n >= 0) && "  Enter number between 0 and 9 number");
 
-    }
-    catch (std::exception& error) {//(std::logic_error& error) {//(const char* error) { //bool, int (...) - for everything
-        std::cout << "Division 0 code exception error:" << std::endl << error.what() << std::endl;
-        std::cout << typeid(error).name() << std::endl;
-    }
-    catch (int error) {
-        std::cout << "Division 0 code intenger error:" << std::endl << std::endl;
-        std::cout << typeid(error).name() << std::endl;
-    }
-    catch (bool error) {
-        std::cout << "Division 0 code bool error:" <<std::endl << std::endl;
-        std::cout << typeid(error).name() << std::endl;
-    }
-    catch (const char* error) {
-        std::cout << "Division 0 code char error: " << std::endl;
-        std::cout << typeid(error).name() << std::endl;
-    }
-    catch (...) {
+	try {
 
-    }
+	}
+	catch (...) {
+
+	}
 }
