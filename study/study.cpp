@@ -1,35 +1,19 @@
 #include <iostream>
 #include <functional>
+#include <algorithm>
 
-/*int multiplication(int x, int y) {
-	return x * y;
+/*
+bool srt(int x, int y) {
+	return x > y;
 }
 */
-
-int calc(std::function<int(int, int)> f, int x, int y) {
-	return f(x, y);
-}
-
 int main() {
-	char oper;
-	int x, y;
-	std::cin >> x >> oper >> y;
-	std::function<int(int x, int y)> f;
-	std::cout << "Operation resalt: ";
-	switch (oper) {
-	case '*':
-		//f = multiplication;
-		f = [](int x, int y) {return x * y; };
-		break;
-	case '+':
-		f = [](int x, int y) {return x + y; };
-		break;
-	case '-':
-		f = [](int x, int y) {return x - y; }; // Lambda functions same thing
-		break;
-	case '/':
-		f = [](int x, int y) {return x / y; };
+
+	int array[10] = { 1, 5, 4, 9, 7, 6, 0, 8 };
+	std::sort(array, array + 8, [](int x, int y) {return x > y; });
+	for (int i = 0; i < 8; i++) {
+		std::cout << array[i] << ' ';
 	}
-	std::cout << calc(f, x, y);
 	
+
 }
