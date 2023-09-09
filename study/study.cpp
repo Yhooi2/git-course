@@ -1,103 +1,31 @@
 #include <iostream>
+#include <functional> // std::fanction<type(type of argumrnt)> name = name function; 
 
-void print() {
-	std::cout << "Hello world\n";
-}
-
-void print2() {
-	std::cout << "By world\n";
-}
-void print3(int x) {
+// print int argument
+void print(int x) {
 	std::cout << x << std::endl;
 }
 
-void useF(void(*point1)()) {
-	point1();
+//f with argument point to function
+void useF(void(*point)()) {
+	point();
 }
 
-void useF(void(*point1)(int)) {
-	point1(3);
+//funcktion with argument point function with argument int
+void useF(void(*point)(int)) {
 
+	point(3);
 }
+// Same thing
+void useF(std::function<void(int)> f) {
 
-void f(int y) {
-
-	y++;
-}
-
-void f1(int& y) {
-
-	y++;
-}
-
-void f2(int* y) {
-	(*y)++;
+	f(4);
 }
 
 int main() {
 
-	void(*point1)() = print;//!!!
-	useF(point1);
-	point1 = print2;
-	useF(point1);
-	void(*point4)(int) = print3;
-	useF(point4);
-	
-	int x = 2;
-	f(x);
-	std::cout << x << std::endl;
-	f1(x);
-	std::cout << x << std::endl;
-	f2(&x);
-	std::cout << x << std::endl;
-	
-	//int x = 4;
-	//int& z = x;
-
-	int* point0 = new int(4);
-	std::cout << point0 << ' ' << *point0 << std::endl;
-	int& link = *point0;
-	link++;
-	std::cout << point0 << ' ' << *point0 << link << std::endl;
-	delete point0;// When new int()
-
-	std::cout << link << std::endl;
-
-
-
-
-	std::string s = "345", s1 = "444";
-	std::string* str = nullptr;
-
-	//try {
-		//std::cout << *str;
-	//}
-	//catch (...) {
-		//std::cout << "ERROR";
-	//}
-	if (s == "343") {
-		str = &s;
-	}
-	else {
-		str = &s1;
-	}
-	std::cout << *str << ' ' << & s << std::endl;
-
-	x = 2;
-	int* point = &x;
-
-	std::cout << &x << ' ' << point << ' ' << *point << ' ' << x << std::endl;
-	x = 3;
-	std::cout << &x << ' ' << point << ' ' << *point << ' ' << x << std::endl;
-	*point = 4;
-	std::cout << &x << ' ' << point << ' ' << *point << ' ' << x << std::endl;
-
-	int arr[10];
-	std::cout << &arr << ' ' << arr << ' ' << &arr[0] << ' ' << &arr[1] << std::endl;
-
-	int& y = x;
-	std::cout << x << ' ' << &x << ' ' << y << ' ' << &y << std::endl;
-	y = 5;
-	std::cout << x << ' ' << &x << ' ' << y << ' ' << &y << std::endl;
-
+	void(*point)(int) = print;//initialization point
+	useF(point);//f(f())
+	std::function<void(int)> pointf = print;
+	useF(pointf);
 }
