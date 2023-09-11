@@ -1,31 +1,41 @@
 #include <iostream>
-#include <functional> // std::fanction<type(type of argumrnt)> name = name function; 
+#include <functional>
+#include <algorithm>
 
-// print int argument
-void print(int x) {
-	std::cout << x << std::endl;
+struct Animal {
+	int legs;
+	std::string name;
+};
+
+void setSetting(std::function<void(Animal*)> f1, Animal* p) {
+
+	f1(p);
 }
-
-//f with argument point to function
-void useF(void(*point)()) {
-	point();
+/*
+bool srt(int x, int y) {
+	return x > y;
 }
+*/
+	int main() {
 
-//funcktion with argument point function with argument int
-void useF(void(*point)(int)) {
+		Animal cat{ 4, "Barsic" };
+		Animal* pointer = &cat;
+		std::cout << sizeof(pointer) << std::endl;
 
-	point(3);
-}
-// Same thing
-void useF(std::function<void(int)> f) {
+		std::cout << (*pointer).legs << ' ' << (*pointer).name << std::endl;// Same thing
+		std::cout << pointer->legs << ' ' << pointer->name << std::endl;// Same thing
+		std::cout << cat.legs << ' ' << cat.name << std::endl;// Same thing
 
-	f(4);
-}
+		std::string setting = "name";
+		std::function<void(Animal*)> f;
+		std::cout << &f << std::endl;
+		if (setting == "name") {
+			f = [](Animal* dog) {dog->name = "Djeck"; };// Lambda funcktion
+		}
+		else
+			f = [](Animal* dog) {dog->legs = 3; };
 
-int main() {
+		setSetting(f, pointer);// pointer of function for function
+		std::cout << pointer->legs << ' ' << pointer->name; 
 
-	void(*point)(int) = print;//initialization point
-	useF(point);//f(f())
-	std::function<void(int)> pointf = print;
-	useF(pointf);
-}
+	}
