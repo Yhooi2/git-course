@@ -1,23 +1,22 @@
 #include <iostream>
-#include <vector>
-#include <algorithm>
+
+
 
 int main() {
-	int size = 0;
-	std::cin >> size;
-	std::vector<int> v;//int* dynamicArray = new int[size];
-	int temp = 0;
-	for (int i = 0; i < size; ++i) {
-		std::cin >> temp;
-		v.push_back(temp);
+	int n = 0;
+	std::cin >> n;
+	int** pp = new int* [n]; // dynamic matrix
+
+	for (int i = 0; i < n; ++i) {
+		pp[i] = new int[n];
 	}
-	std::sort(v.begin(), v.end()); //sort vector! dynamic array with pointer: sort(diArray, diArray + size);
-	v.push_back(1);
-	v.push_back(2);
-	v.pop_back();
-	
-	for (int i = 0; i < v.size(); ++i) {
-		std::cout << v[i] << ' ';
+
+	pp[1][1] = 1;
+	std::cout << pp[1][1];
+
+	for (int i = 0; i < n; ++i) {
+		delete[] pp[i];
 	}
-	//delete dynamicArray
+	delete[] pp;
+
 }
