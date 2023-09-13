@@ -1,22 +1,23 @@
 #include <iostream>
-#include <vector>
+#include <list>
 
 int main() {
 
-	int size = 0;
+	std::list<int> l;
+	int size = 0, number = 0;
 	std::cin >> size;
-	std::vector<int> v(10, 0);// New vector by 10 and zerroing it
+	for (int i = 0; i < size; ++i) {
+		std::cin >> number;
+		l.push_front(number);
+		l.push_back(number);
+	}
 
-	// New matrix by 10x10 anf zerroing it
-	std::vector<std::vector<int>> m(10, std::vector<int>(10, 0));
-	// and etc...
-
-	// New matrix by 10x3 and fill it
-	std::vector<std::vector <int>>m1(10, std::vector<int>({ 1,2,3 }));
-
-	// old method 
-	std::vector<std::vector<int>> v1;
-	for (int i = 0; i > size; ++i) {
-		v1.push_back(std::vector<int>());
+	auto iterator = l.begin();
+	std::advance(iterator, size);//do { ++iterator; } while (--size);
+	l.insert(iterator, 0);
+	//l.sort();
+	//l.reverse();
+	for (auto it : l) { //for (auto iterator = l.begin(); iterator != l.end(); ++iterator) { *it
+		std::cout << it << ' ';
 	}
 }
