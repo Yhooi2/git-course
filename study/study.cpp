@@ -1,41 +1,32 @@
 #include <iostream>
-#include <functional>
-#include <algorithm>
 
-struct Animal {
-	int legs;
-	std::string name;
+struct Node {
+	int value = 0;
+	Node* next = nullptr;
 };
 
-void setSetting(std::function<void(Animal*)> f1, Animal* p) {
-
-	f1(p);
-}
-/*
-bool srt(int x, int y) {
-	return x > y;
-}
-*/
-	int main() {
-
-		Animal cat{ 4, "Barsic" };
-		Animal* pointer = &cat;
-		std::cout << sizeof(pointer) << std::endl;
-
-		std::cout << (*pointer).legs << ' ' << (*pointer).name << std::endl;// Same thing
-		std::cout << pointer->legs << ' ' << pointer->name << std::endl;// Same thing
-		std::cout << cat.legs << ' ' << cat.name << std::endl;// Same thing
-
-		std::string setting = "name";
-		std::function<void(Animal*)> f;
-		std::cout << &f << std::endl;
-		if (setting == "name") {
-			f = [](Animal* dog) {dog->name = "Djeck"; };// Lambda funcktion
-		}
-		else
-			f = [](Animal* dog) {dog->legs = 3; };
-
-		setSetting(f, pointer);// pointer of function for function
-		std::cout << pointer->legs << ' ' << pointer->name; 
-
+int main() {
+	
+	Node* firstList = new Node;
+	Node* lastList = firstList; 
+	int n;
+	std::cin >> n;
+	int number = 0;
+	for (int i = 0; i < n; ++i) {
+		std::cin >> number;
+		lastList->value = number;
+		Node* newList = new Node;
+		lastList->next = newList;
+		lastList = newList;
 	}
+
+	for (Node* iterator = firstList; iterator != lastList; iterator = iterator->next) {
+		std::cout << iterator->value;
+	}
+
+	for (auto iterator = firstList, it = iterator->next; iterator != lastList; iterator = it) {
+		it = iterator->next;
+		delete iterator;
+	}
+	delete lastList, firstList;
+}
