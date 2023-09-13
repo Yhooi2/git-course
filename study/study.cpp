@@ -1,23 +1,32 @@
 #include <iostream>
-#include <list>
+
+struct Node {
+	int value = 0;
+	Node* next = nullptr;
+};
 
 int main() {
-
-	std::list<int> l;
-	int size = 0, number = 0;
-	std::cin >> size;
-	for (int i = 0; i < size; ++i) {
+	
+	Node* firstList = new Node;
+	Node* lastList = firstList; 
+	int n;
+	std::cin >> n;
+	int number = 0;
+	for (int i = 0; i < n; ++i) {
 		std::cin >> number;
-		l.push_front(number);
-		l.push_back(number);
+		lastList->value = number;
+		Node* newList = new Node;
+		lastList->next = newList;
+		lastList = newList;
 	}
 
-	auto iterator = l.begin();
-	std::advance(iterator, size);//do { ++iterator; } while (--size);
-	l.insert(iterator, 0);
-	//l.sort();
-	//l.reverse();
-	for (auto it : l) { //for (auto iterator = l.begin(); iterator != l.end(); ++iterator) { *it
-		std::cout << it << ' ';
+	for (Node* iterator = firstList; iterator != lastList; iterator = iterator->next) {
+		std::cout << iterator->value;
 	}
+
+	for (auto iterator = firstList, it = iterator->next; iterator != lastList; iterator = it) {
+		it = iterator->next;
+		delete iterator;
+	}
+	delete lastList, firstList;
 }
