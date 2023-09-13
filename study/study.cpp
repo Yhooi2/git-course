@@ -1,13 +1,17 @@
+
 #include <iostream>
 #include <fstream>
-#include <string>// getline
+#include <string>
 
 int main() {
-	std::string s;
-	std::getline(std::cin, s);
 
-	std::ofstream fout("output.txt", std::ios_base::app);
+	std::ifstream fin ("output.txt");
 
-	fout << s + "\n";
-	fout.close();
+	if (fin.is_open()) {
+		std::string s;
+		std::getline(fin, s);
+		std::cout << s;
+		fin.close();
+
+	}
 }
