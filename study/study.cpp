@@ -1,32 +1,17 @@
-#include <iostream>
 
-struct Node {
-	int value = 0;
-	Node* next = nullptr;
-};
+#include <iostream>
+#include <fstream>
+#include <string>
 
 int main() {
-	
-	Node* firstList = new Node;
-	Node* lastList = firstList; 
-	int n;
-	std::cin >> n;
-	int number = 0;
-	for (int i = 0; i < n; ++i) {
-		std::cin >> number;
-		lastList->value = number;
-		Node* newList = new Node;
-		lastList->next = newList;
-		lastList = newList;
-	}
 
-	for (Node* iterator = firstList; iterator != lastList; iterator = iterator->next) {
-		std::cout << iterator->value;
-	}
+	std::ifstream fin ("output.txt");
 
-	for (auto iterator = firstList, it = iterator->next; iterator != lastList; iterator = it) {
-		it = iterator->next;
-		delete iterator;
+	if (fin.is_open()) {
+		std::string s;
+		std::getline(fin, s);
+		std::cout << s;
+		fin.close();
+
 	}
-	delete lastList, firstList;
 }
