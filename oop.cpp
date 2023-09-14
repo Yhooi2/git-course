@@ -1,20 +1,39 @@
-// oop.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+#include <string>
+ 
+class Animal {
+  
+  private:
+ 
+	int legs = 4;
+	std::string name = "";
+	std::string type = "";
+	
+  public:
+	  Animal() {//Difoult Constructor
+		  std::cout << "Difoult Constructor\n";
+	  }
+	  Animal(int legs, std::string name, std::string type) : legs(legs), name(name), type(type) {} // Constructor
+		  //this->legs = legs;  - Same thing
+		  //this->name = name;
+		  //this->type = type;
 
-int main()
-{
-    std::cout << "Hello World!\n";
+	  //}
+
+	void setLegs(int newLegs) { // Setter
+		if (newLegs >= 0 && newLegs <= 1000) {
+			legs = newLegs;
+		}
+	}
+
+	std::string getLegs() { //Gettor
+		return std::to_string(legs) + ' ' + name + ' ' + type + '\n';
+	}
+};
+
+int main() {
+
+	Animal cat(4, "Barsic", "cat");
+	Animal dog;
+	std::cout << cat.getLegs() + ' ' + dog.getLegs();
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
