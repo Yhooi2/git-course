@@ -1,9 +1,6 @@
-errors.txt
-.sln
-.vcxproj
-.vs/
-/logs
-/Debug
-/x64
 x64
-Debug/
+*.sln
+*.vcxproj
+*.filters
+*.user
+.vs
