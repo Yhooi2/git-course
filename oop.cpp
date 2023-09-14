@@ -13,12 +13,9 @@ class Animal {
 	  Animal() {//Difoult Constructor
 		  std::cout << "Difoult Constructor\n";
 	  }
-	  Animal(int legs, std::string name, std::string type) : legs(legs), name(name), type(type) {} // Constructor
-		  //this->legs = legs;  - Same thing
-		  //this->name = name;
-		  //this->type = type;
 
-	  //}
+	  // Constructor with initializer
+	  Animal(int legs, std::string name, std::string type) : legs(legs), name(name), type(type) {} 
 
 	void setLegs(int newLegs) { // Setter
 		if (newLegs >= 0 && newLegs <= 1000) {
@@ -29,11 +26,18 @@ class Animal {
 	std::string getLegs() { //Gettor
 		return std::to_string(legs) + ' ' + name + ' ' + type + '\n';
 	}
+	~Animal() { //Destructor
+
+		std::cout << "Work of destructor\n";
+	}
+	
 };
 
 int main() {
 
 	Animal cat(4, "Barsic", "cat");
 	Animal dog;
-	std::cout << cat.getLegs() + ' ' + dog.getLegs();
+	Animal car(cat); // copy 
+
+	std::cout << cat.getLegs() + dog.getLegs() + car.getLegs();
 }
