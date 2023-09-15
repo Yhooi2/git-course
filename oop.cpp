@@ -1,75 +1,59 @@
 #include <iostream>
 #include <string>
-#include <set>
 
-class Animal {
-
-private:
-	int legs = 4;
-	std::string name = "";
-	std::string type = "";
+class Human {
 
 public:
-	static int countAnimal;
-	static std::set<std::string> nameAnimal;
-	
 	//Default Constructor
-	Animal() {
-		++countAnimal;
-		std::cout << "Init Difoult Constructor\n";
+	Human() : name("Nobudy") {
+		std::cout << "Used Default Constructor\n";
 	}
 
-	// Constructor for name
-	Animal(std::string name) : name(name) {
-		nameAnimal.insert(name);
-		++countAnimal;
-		std::cout << "Used Constructor for name\n";
-	}
-	// Parameters Constructor and Initializer 
-	Animal(int legs, std::string name, std::string type) : legs(legs), name(name), type(type) {
-		nameAnimal.insert(name);
-		++countAnimal;
-		std::cout << "Init Parameters Constructor\n";
+	// Names Constructor
+	Human(const std::string& name) : name(name) { 
+		std::cout << "Used Names Constructor for " << name << '\n';
 	}
 
-	// Copy Constructor and Initializer 
-	Animal(const Animal& copy) : legs(copy.legs), name(copy.name), type(copy.type) {
-		nameAnimal.insert(name);
-		++countAnimal;
-		std::cout << "Init Copy Constructor\n";
-	}
-
-	static std::string printName() { // static method
-		std::string temp = "";
-		for (auto& it : nameAnimal) {// for (auto it = nameAnimal.begin(); it != nameAnimal.end(); ++it) {
-			temp += it + '\n';
-		}
-		return temp;
-	}
-	// Method Gettor
-	std::string getLegs() {
-		return std::to_string(legs) + ' ' + name + ' ' + type  + '\n';
+	// Method
+	void work() {
+		std::cout << "Human " << name << " is working\n";
 	}
 
 	//Destructor
-	~Animal() { 
+	~Human() {
+		std::cout << "Used Destructor\n";
+	}
+private:
+	std::string name;
+	friend std::string getName(Human&);
+};
 
-		std::cout << "Work of destructor\n";
+
+std::string getName(Human& h) {
+	return h.name;
+}
+
+class Doctor : public Human {
+	 
+public:
+
+	Doctor() {
+		std::cout << "Default Constructor of Doctor\n ";
 	}
 
-};
-int Animal::countAnimal = 0;
-std::set<std::string> Animal::nameAnimal;
+	Doctor(const std::string& name, const int number) : Human(name),numPatients(number) {
+		std::cout << "Doktor " << name << number << '\n';
+	}
+	~Doctor() {
+		std::cout << "Doctors Destructor\n";
+	}
 
+protected:
+	int numPatients = 0;
+};
 
 int main() {
-
-	Animal cat(4, "Barsic", "cat");
-	
-	std::cout << cat.countAnimal << '\n' << Animal::printName() << '\n';	
-	Animal dog("dog");
-	std::cout << dog.countAnimal << '\n' << Animal:: printName() << '\n';
-	Animal car("car");
-	std::cout << car.countAnimal << '\n' << Animal::printName() << '\n';
-
+	Doctor dok("Djon", 10);
+	dok.work();
+	std::cout << " --> " <<getName(dok) << '\n';
 }
