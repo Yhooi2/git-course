@@ -10,7 +10,7 @@ protected:
 	~General() {
 		std::cout << "~General\n";
 	}
-	virtual void virtualFunction() = 0; // virtuall function make virtual class
+	virtual void work() = 0; // virtuall function make virtual class
 
 };
 
