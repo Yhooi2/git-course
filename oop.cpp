@@ -1,9 +1,21 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <format>
 
-class Human {
+class General { // virtual class because there is a virtual function
+protected:
+	General() {
+		std::cout << " General\n" << this << '\n';
+	}
+	~General() {
+		std::cout << "~General\n";
+	}
+	virtual void virtualFunction() = 0; // virtuall function make virtual class
+
+};
+
+
+class Human : virtual public General {
 
 public:
 	//Default Constructor
@@ -23,9 +35,9 @@ public:
 
 	//Destructor
 	virtual ~Human() {
-		std::cout << "Human Destructor\n";
+		std::cout << "~Human Destructor\n";
 	}
-protected:
+
 	std::string name;
 	friend std::string getName(Human&);
 };
@@ -35,15 +47,39 @@ std::string getName(Human& h) {
 	return h.name;
 }
 
-class Doctor : public Human {
+class Job : virtual public General {
+
+protected:
+	Job() : Job(0) {
+		std::cout << "Job()\n";
+	}
+
+	Job(int salary) : salary(salary) {
+		std::cout << "Job(int)\n";
+	}
+public:
+	void work() {
+		std::cout << "Get paid " << salary << "$\n";
+	}
+
+	~Job() {
+		std::cout << "~Job()\n";
+	}
+
+	int salary;
+
+};
+
+
+class Doctor : public Job, public Human {
 	 
 public:
 
-	Doctor() : Human("Doctor") {
+	Doctor() : Human("Doctor()") {
 		std::cout << "Default Constructor of Doctor\n ";
 	}
 
-	Doctor(const std::string& name, const int number) : Human(name),numPatients(number) {
+	Doctor(const std::string& name, const int salary, const int number) : Human(name), Job(salary), numPatients(number) {
 		std::cout << "Doktor " << name << number << '\n';
 	}
 
@@ -52,7 +88,7 @@ public:
 	}
 
 	~Doctor() {
-		std::cout << "Doctors Destructor\n";
+		std::cout << "~Doctor\n";
 	}
 
 protected:
@@ -62,18 +98,14 @@ protected:
 int main() {
 
 	std::vector<Human*> nps;
-	nps.push_back(new Doctor());
-	nps.push_back(new Doctor("Harry", 10));
-	nps.push_back(new Human());
-	nps.push_back(new Human("Jack"));
+	nps.push_back(new Doctor("Jon", 1000, 10));
+	nps[0]->work();
+	((Job*)(Doctor*)  nps[0])->work();
 
-	int size = nps.size();
+	Doctor d;
+	Human h = (Doctor)d; // Doctor d became Human h
+	std::cout << h.name;
+	h.work();
 
-	for (int i = 0; i < size; ++i) {
-		nps[i]->work();
-	}
-
-	for (int i = 0; i < size; ++i) {
-		delete nps[i];
-	}
+	delete nps[0]; 
 }
