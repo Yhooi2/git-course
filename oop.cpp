@@ -29,7 +29,7 @@ public:
 	}
 
 	// Method
-	virtual void work() {
+	virtual void work() override {
 		std::cout << "Human " << name << " is working\n";
 	}
 
@@ -58,7 +58,7 @@ protected:
 		std::cout << "Job(int)\n";
 	}
 public:
-	void work() {
+	void work() override {
 		std::cout << "Get paid " << salary << "$\n";
 	}
 
