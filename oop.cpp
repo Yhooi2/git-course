@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <vector>
+#include <format>
 
 class Human {
 
@@ -11,19 +13,19 @@ public:
 
 	// Names Constructor
 	Human(const std::string& name) : name(name) { 
-		std::cout << "Used Names Constructor for " << name << '\n';
+		std::cout << " Human Names Constructor for " << name << '\n';
 	}
 
 	// Method
-	void work() {
+	virtual void work() {
 		std::cout << "Human " << name << " is working\n";
 	}
 
 	//Destructor
-	~Human() {
-		std::cout << "Used Destructor\n";
+	virtual ~Human() {
+		std::cout << "Human Destructor\n";
 	}
-private:
+protected:
 	std::string name;
 	friend std::string getName(Human&);
 };
@@ -37,13 +39,18 @@ class Doctor : public Human {
 	 
 public:
 
-	Doctor() {
+	Doctor() : Human("Doctor") {
 		std::cout << "Default Constructor of Doctor\n ";
 	}
 
 	Doctor(const std::string& name, const int number) : Human(name),numPatients(number) {
 		std::cout << "Doktor " << name << number << '\n';
 	}
+
+	void work() override {
+		std::cout << "Doctor " << name << " is working\n";
+	}
+
 	~Doctor() {
 		std::cout << "Doctors Destructor\n";
 	}
@@ -53,7 +60,20 @@ protected:
 };
 
 int main() {
-	Doctor dok("Djon", 10);
-	dok.work();
-	std::cout << " --> " <<getName(dok) << '\n';
+
+	std::vector<Human*> nps;
+	nps.push_back(new Doctor());
+	nps.push_back(new Doctor("Harry", 10));
+	nps.push_back(new Human());
+	nps.push_back(new Human("Jack"));
+
+	int size = nps.size();
+
+	for (int i = 0; i < size; ++i) {
+		nps[i]->work();
+	}
+
+	for (int i = 0; i < size; ++i) {
+		delete nps[i];
+	}
 }
