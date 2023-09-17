@@ -1,111 +1,100 @@
 #include <iostream>
-#include <string>
-#include <vector>
 
-class General { // virtual class because there is a virtual function
-protected:
-	General() {
-		std::cout << " General\n" << this << '\n';
-	}
-	~General() {
-		std::cout << "~General\n";
-	}
-	virtual void work() = 0; // virtuall function make virtual class
-
-};
-
-
-class Human : virtual public General {
-
+class Human {
 public:
-	//Default Constructor
-	Human() : name("Nobudy") {
-		std::cout << "Used Default Constructor\n";
+	std::string name = "Someone";	
+	int age = 20;
+	std::string password;
+
+
+	// nps + 5
+	Human operator + (const int number) const {
+		Human temp = *this;
+		temp.age += number;
+		return temp;
 	}
 
-	// Names Constructor
-	Human(const std::string& name) : name(name) { 
-		std::cout << " Human Names Constructor for " << name << '\n';
+	// nps + nps2
+	Human operator + (const Human& temp) const {
+		Human temp2 = *this;
+		temp2.age += temp.age;
+		return temp2; 
 	}
 
-	// Method
-	virtual void work() override {
-		std::cout << "Human " << name << " is working\n";
+	// ++nps
+	Human& operator++() {
+		++age;
+		return *this;	
 	}
 
-	//Destructor
-	virtual ~Human() {
-		std::cout << "~Human Destructor\n";
+	//nps++
+	Human operator ++ (int) {
+		Human temp = *this;
+		++age;
+		return temp;
 	}
 
-	std::string name;
-	friend std::string getName(Human&);
+	// += nps2
+	Human operator += (const Human& temp) {
+		int age_ = age;
+		*this = temp;
+		age += age_;
+		return temp;
+	}
+
+	// = nps
+	Human& operator = (const Human& other) {
+		age = other.age;
+		name = other.name;
+		return *this;
+	}
+
+	// == nps
+	bool operator == (const Human& other) const {
+		return password == other.password;
+	}
+
+	// [string]
+	std::string& operator [] (const std::string& argument) {
+		if (argument == "name")
+			return name;
+		else if (argument == "password")
+			return password;
+		else throw std::logic_error("Has not argument is name  " + argument);
+	}
+
+	// 5 + nps
+	friend Human operator + (const int number, const Human& h);			
 };
 
-
-std::string getName(Human& h) {
-	return h.name;
+// 5 + nps
+Human operator + (const int number, const Human& h) {
+	Human temp = h;
+	temp.age += number;
+	return temp;
 }
-
-class Job : virtual public General {
-
-protected:
-	Job() : Job(0) {
-		std::cout << "Job()\n";
-	}
-
-	Job(int salary) : salary(salary) {
-		std::cout << "Job(int)\n";
-	}
-public:
-	void work() override {
-		std::cout << "Get paid " << salary << "$\n";
-	}
-
-	~Job() {
-		std::cout << "~Job()\n";
-	}
-
-	int salary;
-
-};
-
-
-class Doctor : public Job, public Human {
-	 
-public:
-
-	Doctor() : Human("Doctor()") {
-		std::cout << "Default Constructor of Doctor\n ";
-	}
-
-	Doctor(const std::string& name, const int salary, const int number) : Human(name), Job(salary), numPatients(number) {
-		std::cout << "Doktor " << name << number << '\n';
-	}
-
-	void work() override {
-		std::cout << "Doctor " << name << " is working\n";
-	}
-
-	~Doctor() {
-		std::cout << "~Doctor\n";
-	}
-
-protected:
-	int numPatients = 0;
-};
 
 int main() {
 
-	std::vector<Human*> nps;
-	nps.push_back(new Doctor("Jon", 1000, 10));
-	nps[0]->work();
-	((Job*)(Doctor*)  nps[0])->work();
+	Human nps = { "Artem", 35, "498434" };
+	Human nps2 = { "Sveta", 25, "498434" };
 
-	Doctor d;
-	Human h = (Doctor)d; // Doctor d became Human h
-	std::cout << h.name;
-	h.work();
-
-	delete nps[0]; 
+	nps = nps + 5;
+	nps = 5 + nps;
+	nps2 = ++nps2; 
+	nps2 = nps2++;
+	nps = nps + nps2;
+	std::cout << nps2.name << ' ' << nps.age << '\n';
+	nps = nps2 += nps;
+	std::cout << nps2.name << ' ' << nps2.age << '\n';
+	std::cout << (nps == nps2) << '\n';
+	nps["name"] = "Maria";
+	try {
+		nps["sdf"] = "****";
+	}
+	catch (std::exception& e) {
+		std::cout << e.what() << '\n';
+	}
+	std::cout << nps.name << ' ' << nps.age << ' ' << nps.password;
 }
+
