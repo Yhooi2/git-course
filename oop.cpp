@@ -1,114 +1,87 @@
+#include <algorithm> // for_each(.begin(), end(), [](){})
 #include <iostream>
+#include <list>
+#include <forward_list> 
+#include <stack> // .push() .pop() .top() .empty()
+#include <queue> // .push() .pop() .front()
+#include <deque> // .pop_back(); .pop_front(); . shrink_to_fit(); [] ferts insert for begin
+#include <vector>
 
-template <typename T>
-class List {
-	class Node {
-	public:
-		T value;
-		Node* prev = nullptr;
-		Node* next = nullptr;
-		Node() {};
-		Node(const T& value, Node* ptev, Node* next) : value(value), prev(prev), next(next) {}
-	};
-
-public:
-	class Iterator {
-	private:
-
-		Iterator(Node* node) : node(node) {}
-
-	public:
-		Iterator() {}
-		Iterator& operator++() {
-			node = node->next;
-			return *this;
-		}
-		Iterator operator++(int) {
-			Iterator temp = *this;
-			node = node->next;
-			return temp;
-		}
-		T& operator*() {
-			return node->value;
-		}
-
-		bool operator==(const Iterator& other) {
-			return other.node == this->node;
-		}
-		bool operator!=(const Iterator& other) {
-			return!(*this == other);
-		}
-	private:
-		Node* node = nullptr;
-		friend List;
-	};
-	List() {
-		ferst.node = new Node();
-		last.node = ferst.node;
-	}
-	List(const List& other) : List() {
-		for (Iterator it = ferst; it != last; ++it) {
-			this->push_back(*it);
-		}
-	}
-
-	Iterator insert(const Iterator& position, const T number) {
-		if (this->empty()) {
-			Iterator newNode(new Node(number, nullptr, position.node));
-			position.node->prev = newNode.node;
-			ferst = newNode;
-			return newNode;
-		}
-		Iterator follow = position;
-		++follow;
-		Iterator newNode(new Node(number, position.node, follow.node));
-		position.node->next = newNode.node;
-		follow.node->prev = newNode.node;
-		return newNode;
-
-	}
-	Iterator push_back(T number) {
-		if (this->empty()) return this->insert(Iterator(last), number);
-		return this->insert(Iterator(last.node->prev), number);
-	}
-
-	bool empty() {
-		return ferst == last;
-	}
-
-	Iterator begin() {
-		return ferst;
-	}
-	Iterator end() {
-		return last;
-	}
-	~List() {
-		Iterator it2 = ferst;
-		for (Iterator it = ferst; it != last;) {
-			it2 = it;
-			++it;
-			delete it2.node;
-		}
-		delete last.node;
-	}
-
-private:
-	Iterator ferst;
-	Iterator last;
-};
 
 int main() {
-	List<std::string> l;
-	int size;
-	std::string value;
-	std::cin >> size;
-	for (int i = 0; i < size; ++i) {
-		std::cin >> value;
-		l.push_back(value);
+
+	std::vector<int> vec;
+	for (int i = 0; i < 100; ++i) {
+		vec.push_back(i);
 	}
-	List<std::string>::Iterator it;
-	for (it = l.begin(); it != l.end(); ++it) {
-		std::cout << *it << ' ';
+	std::cout << vec.capacity() << '\n';
+
+	for (int i = 0; i < 50; ++i) {
+		vec.push_back(i);
 	}
+	std::cout << vec.capacity() << '\n';
+
+	std::deque<int> deq = { 0,1,2,3,4,5,6 };
+	deq.pop_back();
+	deq.pop_front();
+	deq.shrink_to_fit();
+	std::cout << deq[0] << deq[4] << '\n';
+
+
+	std::queue<int> que;
+	que.push(1);
+	que.push(2);
+	que.push(3);
+
+	while (!que.empty()) {
+		std::cout << que.front() << '\n';
+		que.pop();
+	}
+
+	std::stack <int> stk;
+	stk.push(1);
+	stk.push(2);
+	stk.push(3);
+
+	while(!stk.empty()) {
+		std::cout << stk.top() << '\n';
+		stk.pop();
+	}
+	
+	std::forward_list<int> lis = { 1, 2, 3 };
+
+	auto it = lis.begin();
+	++it;
+	std::cout << *(++it);// --it error becouse forward lost
+
+	//
+	std::list<int> l = { 1, 2, 3 };
+
+	for (auto it = l.rbegin(); it != l.rend(); ++it) {// revers  --it list
+		std::cout << *it;
+	}
+	int number;
+	std::cin >> number;
+	std::for_each(l.begin(), l.end(), [](const auto& elem) {std::cout << elem << ' '; });
+	std::for_each(l.begin(), l.end(), [&number, &l](auto& elem) { elem += number; std::cout << elem << ' '; });
+	
+	for (auto it = l.begin(); it != l.end(); ++it) {
+		*it = 5;
+		
+	}
+	for (auto elem : l) {
+		elem = 7;
+		
+	}
+	for (const auto& elem : l) {
+		std::cout << elem << ' ';
+	}
+	for (auto& elem : l) {
+		elem = 6;
+	}
+	for (const auto& elem : l) {
+		std::cout << elem << ' ';
+	}
+
 
 }
