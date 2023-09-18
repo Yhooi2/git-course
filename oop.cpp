@@ -1,51 +1,114 @@
 #include <iostream>
-#include <string>
 
 template <typename T>
+class List {
+	class Node {
+	public:
+		T value;
+		Node* prev = nullptr;
+		Node* next = nullptr;
+		Node() {};
+		Node(const T& value, Node* ptev, Node* next) : value(value), prev(prev), next(next) {}
+	};
 
-class Position {
 public:
-	T x;
-	T y;
+	class Iterator {
+	private:
 
-	Position(T x, T y) : x(x), y(y){}
+		Iterator(Node* node) : node(node) {}
 
-	virtual void print() const {
-		std::cout << "x = " << x << '\n';
-		std::cout << "y = " << y << '\n';
+	public:
+		Iterator() {}
+		Iterator& operator++() {
+			node = node->next;
+			return *this;
+		}
+		Iterator operator++(int) {
+			Iterator temp = *this;
+			node = node->next;
+			return temp;
+		}
+		T& operator*() {
+			return node->value;
+		}
+
+		bool operator==(const Iterator& other) {
+			return other.node == this->node;
+		}
+		bool operator!=(const Iterator& other) {
+			return!(*this == other);
+		}
+	private:
+		Node* node = nullptr;
+		friend List;
+	};
+	List() {
+		ferst.node = new Node();
+		last.node = ferst.node;
 	}
-};
-template<>
-class Position<std::string> {
-public:
-	std::string x;
-	std::string y;
-
-	Position(std::string x, std::string y) : x(x), y(y) {}
-
-	virtual void print() const {
-		std::cout << x << '\n';
-		std::cout << y << '\n';
+	List(const List& other) : List() {
+		for (Iterator it = ferst; it != last; ++it) {
+			this->push_back(*it);
+		}
 	}
-};
 
-template <typename U>
-class Position3D : public Position<U> {
-public:
-	U z;
-	Position3D(U x, U y, U z) : Position<U>(x, y), z(z) {}
+	Iterator insert(const Iterator& position, const T number) {
+		if (this->empty()) {
+			Iterator newNode(new Node(number, nullptr, position.node));
+			position.node->prev = newNode.node;
+			ferst = newNode;
+			return newNode;
+		}
+		Iterator follow = position;
+		++follow;
+		Iterator newNode(new Node(number, position.node, follow.node));
+		position.node->next = newNode.node;
+		follow.node->prev = newNode.node;
+		return newNode;
 
-	void print() const override {
-		this->Position <U>::print();
-		std::cout << "z = " << z << '\n';
 	}
+	Iterator push_back(T number) {
+		if (this->empty()) return this->insert(Iterator(last), number);
+		return this->insert(Iterator(last.node->prev), number);
+	}
+
+	bool empty() {
+		return ferst == last;
+	}
+
+	Iterator begin() {
+		return ferst;
+	}
+	Iterator end() {
+		return last;
+	}
+	~List() {
+		Iterator it2 = ferst;
+		for (Iterator it = ferst; it != last;) {
+			it2 = it;
+			++it;
+			delete it2.node;
+		}
+		delete last.node;
+	}
+
+private:
+	Iterator ferst;
+	Iterator last;
 };
 
 int main() {
-	 Position3D<int> point(1, 2, 3);
-	 point.print();
-
-	 //Position <std::string> pointed("x = 1", "y =2");
-	 //pointed.print();
+	List<std::string> l;
+	int size;
+	std::string value;
+	std::cin >> size;
+	for (int i = 0; i < size; ++i) {
+		std::cin >> value;
+		l.push_back(value);
+	}
+	List<std::string>::Iterator it;
+	for (it = l.begin(); it != l.end(); ++it) {
+		std::cout << *it << ' ';
+	}
 
 }
