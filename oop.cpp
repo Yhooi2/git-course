@@ -1,100 +1,111 @@
 #include <iostream>
 
-class Human {
+class List {
+	class Node {
+	public:
+		int value = 0;
+		Node* prev = nullptr;
+		Node* next = nullptr;
+		Node() {};
+		Node(const int& value, Node* ptev, Node* next): value(value), prev(prev), next(next) {} 
+	};
+
 public:
-	std::string name = "Someone";	
-	int age = 20;
-	std::string password;
+	class Iterator {
+	private:
+		
+		Iterator(Node* node): node(node) {}
 
+	public:
+		Iterator() {}
+		Iterator& operator++() {
+			node = node->next;
+			return *this;		
+		}
+		Iterator operator++(int) {
+			Iterator temp = *this;
+			node = node->next;
+			return temp;
+		}
+		int& operator*() {
+			return node->value;
+		}
 
-	// nps + 5
-	Human operator + (const int number) const {
-		Human temp = *this;
-		temp.age += number;
-		return temp;
+		bool operator==(const Iterator& other) {
+			return other.node == this->node;
+		}
+		bool operator!=(const Iterator & other) {
+			return!(*this == other);
+		}
+	private:
+		Node* node = nullptr;
+		friend List;
+	};
+	List() {
+		ferst.node = new Node();
+		last.node = ferst.node;
+	}
+	List(const List& other) : List() {
+		for (Iterator it = ferst; it != last; ++it) {
+			this->push_back(*it);
+		}
 	}
 
-	// nps + nps2
-	Human operator + (const Human& temp) const {
-		Human temp2 = *this;
-		temp2.age += temp.age;
-		return temp2; 
+	Iterator insert(const Iterator& position, const int number) {
+		if (this->empty()) {
+			Iterator newNode(new Node(number, nullptr, position.node));
+			position.node->prev = newNode.node;
+			ferst = newNode;
+			return newNode;
+		}
+		Iterator follow = position;
+		++follow;
+		Iterator newNode(new Node(number, position.node, follow.node));
+		position.node->next = newNode.node;
+		follow.node->prev = newNode.node;
+		return newNode;
+
+	}
+	Iterator push_back(int number) {
+		if (this->empty()) return this->insert(Iterator(last), number);
+		return this->insert(Iterator(last.node->prev), number);
 	}
 
-	// ++nps
-	Human& operator++() {
-		++age;
-		return *this;	
+	bool empty() {
+		return ferst == last;
 	}
 
-	//nps++
-	Human operator ++ (int) {
-		Human temp = *this;
-		++age;
-		return temp;
+	Iterator begin() {
+		return ferst;
+	}
+	Iterator end() {
+		return last;
+	}
+	~List() {
+		Iterator it2 = ferst;
+		for (Iterator it = ferst; it != last;) {
+			it2 = it;
+			++it;
+			delete it2.node;
+		}
+		delete last.node;
 	}
 
-	// += nps2
-	Human operator += (const Human& temp) {
-		int age_ = age;
-		*this = temp;
-		age += age_;
-		return temp;
-	}
-
-	// = nps
-	Human& operator = (const Human& other) {
-		age = other.age;
-		name = other.name;
-		return *this;
-	}
-
-	// == nps
-	bool operator == (const Human& other) const {
-		return password == other.password;
-	}
-
-	// [string]
-	std::string& operator [] (const std::string& argument) {
-		if (argument == "name")
-			return name;
-		else if (argument == "password")
-			return password;
-		else throw std::logic_error("Has not argument is name  " + argument);
-	}
-
-	// 5 + nps
-	friend Human operator + (const int number, const Human& h);			
+private: 
+	Iterator ferst;
+	Iterator last;
 };
 
-// 5 + nps
-Human operator + (const int number, const Human& h) {
-	Human temp = h;
-	temp.age += number;
-	return temp;
-}
-
 int main() {
-
-	Human nps = { "Artem", 35, "498434" };
-	Human nps2 = { "Sveta", 25, "498434" };
-
-	nps = nps + 5;
-	nps = 5 + nps;
-	nps2 = ++nps2; 
-	nps2 = nps2++;
-	nps = nps + nps2;
-	std::cout << nps2.name << ' ' << nps.age << '\n';
-	nps = nps2 += nps;
-	std::cout << nps2.name << ' ' << nps2.age << '\n';
-	std::cout << (nps == nps2) << '\n';
-	nps["name"] = "Maria";
-	try {
-		nps["sdf"] = "****";
+	List l;
+	int size, value;
+	std::cin >> size;
+	for (int i = 0; i < size; ++i) {
+		std::cin >> value;
+		l.push_back(value);
 	}
-	catch (std::exception& e) {
-		std::cout << e.what() << '\n';
-	}
-	std::cout << nps.name << ' ' << nps.age << ' ' << nps.password;
+	for (auto it = l.begin(); it != l.end(); ++it) {
+		std::cout << *it;
+		}
+
 }
-
