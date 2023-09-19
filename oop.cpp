@@ -1,14 +1,78 @@
 #include <algorithm> // for_each(.begin(), end(), [](){})
 #include <iostream>
-#include <list>
+#include <list> // .rbegin() .rend()
+#include <string>
 #include <forward_list> 
 #include <stack> // .push() .pop() .top() .empty()
-#include <queue> // .push() .pop() .front()
+#include <queue> // .push() .pop() .front() -  preority_queue <int, vector<int>, gtreater<int> top
 #include <deque> // .pop_back(); .pop_front(); . shrink_to_fit(); [] ferts insert for begin
-#include <vector>
+#include <vector>//.capacity();
+#include <set>// set<>, multuset<> .insert(), .lower_bound(), .upper_bound(), .find(), .count(3) 
+#include <unordered_set> //
+#include <map> // it->first, it->second, multimap<T,T>  mmp ={{}{}} map<T,T>  mp[T]= T .counter
+#include <unordered_map> //unordered_multimap<>
 
 
 int main() {
+	std::unordered_map<std::string, int> ump = {
+		{"Alex", 10},
+		{"Maria", 100},
+		{"Art", 200},
+		{"Maria", 140}
+	};
+	for (auto it = ump.begin(); it != ump.end(); ++it) {
+		std::cout << it->first << ' ' << it->second << '\n';
+	}
+
+	std::multimap<std::string, int> mmp = {
+		{"Alex", 10},
+		{"Maria", 100},
+		{"Art", 200},
+		{"Maria", 140}
+	};
+	for (auto it = mmp.begin(); it != mmp.end(); ++it) {
+		std::cout << it->first << ' ' << it->second << '\n';
+	}
+
+	//            Key    value
+	std::map<std::string, int> mp;
+	mp["Art"] = 10;
+	mp["Serg"] = 100;
+	mp["Marry"] = 1000;
+	mp["Art"] = 1500;
+
+	for (auto it = mp.begin(); it != mp.end(); ++it) {
+		std::cout << it->first << ' ' << it->second << '\n';
+	}
+	std::cout << mp.count("Art") << '\n';
+
+
+
+	std::unordered_set<int> ust = { 1, 3, 2, 5, 4, 3, 2, 6, };
+	ust.insert(8); // insert rundom for unordered_set
+	for (auto it = ust.begin(); it != ust.end(); ++it) {
+		std::cout << *it << ' ';
+	}
+
+	std::multiset<int> st = { 1, 3, 2, 5, 4, 3, 2, 6, }; // multiset - set with repetition
+	st.insert(2); 
+	std::cout << *(st.lower_bound(2)) << ' ' << *(st.upper_bound(2)) <<'\n';//lb >=, ub >
+
+	for (auto it = st.find(2); it != st.upper_bound(5); ++it) {
+		std::cout << *it << ' ';
+	}	
+	auto iter = st.find(2);
+	std::cout << st.count(3) << "    " << *iter << '\n';
+	
+
+	std::priority_queue<int, std::vector<int>, std::greater<int>> q;
+		for (int i = 0; i < 5; ++i) {
+			q.push(9 - i);
+		}// po ubivaniy s greater po vozrastaniy
+		while (!q.empty()) {
+			std::cout << q.top() << '\n';
+			q.pop();
+		}
 
 	std::vector<int> vec;
 	for (int i = 0; i < 100; ++i) {
