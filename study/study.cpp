@@ -1,23 +1,13 @@
 #include <iostream>
 
-class Student {
+template <typename T, typename T2> 
 
-	const std::string faculty;
-	const int studNumber;
-public:
-
-	Student(std::string&& rvalue, const int studNumber)
-		: faculty(rvalue), studNumber(studNumber) {}
-	Student(const std::string& faculty, const int studNumber)
-		: faculty(faculty), studNumber(studNumber) {}
-	void print() const {
-		std::cout << faculty << ' ' << studNumber << '\n';
-	}
-
-
-};
+double multiply (T a, T2 b) {
+	return a * b;
+}
 
 int main() {
-	Student anton("Program", 3424);
-	anton.print();
+	float a = 3;
+	int b = 4;
+	std::cout << typeid(multiply(a, b)).name() << multiply(a, b);
 }
